@@ -11,7 +11,12 @@ public class TeacherMapper implements RowMapper<Teacher> {
         //YOUR CODE STARTS HERE
 
 
-        return null;
+        Teacher t = new Teacher();
+        t.setTeacherId(rs.getInt("tid"));
+        t.setTeacherFName(rs.getString("tFName"));
+        t.setTeacherLName(rs.getString("tLName"));
+        t.setDept(rs.getString("dept"));
+        return t;
 
         //YOUR CODE ENDS HERE
     }

@@ -29,7 +29,11 @@ public class StudentDaoImpl implements StudentDao {
         //YOUR CODE STARTS HERE
 
 
-        return null;
+        String sql = "INSERT INTO student (fName, lName) VALUES (?,?)";
+
+        jdbcTemplate.update(sql, student.getStudentFirstName(), student.getStudentLastName());
+
+        return student;
 
 
         //YOUR CODE ENDS HERE
@@ -40,7 +44,8 @@ public class StudentDaoImpl implements StudentDao {
         //YOUR CODE STARTS HERE
 
 
-        return null;
+        final String sql = "SELECT * FROM student;";
+        return jdbcTemplate.query(sql, new StudentMapper());
 
         //YOUR CODE ENDS HERE
     }
@@ -49,7 +54,8 @@ public class StudentDaoImpl implements StudentDao {
     public Student findStudentById(int id) {
         //YOUR CODE STARTS HERE
 
-        return null;
+        final String sql = "SELECT * FROM student WHERE sid = ?";
+        return jdbcTemplate.queryForObject(sql, new StudentMapper(), id);
 
         //YOUR CODE ENDS HERE
     }
@@ -58,6 +64,11 @@ public class StudentDaoImpl implements StudentDao {
     public void updateStudent(Student student) {
         //YOUR CODE STARTS HERE
 
+        final String sql = "UPDATE student SET fName = ?, lName = ? WHERE sid = ?";
+        jdbcTemplate.update(sql,
+                student.getStudentFirstName(),
+                student.getStudentLastName(),
+                student.getStudentId());
 
         //YOUR CODE ENDS HERE
     }
@@ -66,6 +77,8 @@ public class StudentDaoImpl implements StudentDao {
     public void deleteStudent(int id) {
         //YOUR CODE STARTS HERE
 
+        jdbcTemplate.update("DELETE FROM course_student WHERE student_id = ?", id);
+        jdbcTemplate.update("DELETE FROM student WHERE sid = ?", id);
 
         //YOUR CODE ENDS HERE
     }
@@ -74,7 +87,8 @@ public class StudentDaoImpl implements StudentDao {
     public void addStudentToCourse(int studentId, int courseId) {
         //YOUR CODE STARTS HERE
 
-
+        final String sql = "INSERT INTO course_student (student_id, course_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, studentId, courseId);
 
         //YOUR CODE ENDS HERE
     }
@@ -83,7 +97,8 @@ public class StudentDaoImpl implements StudentDao {
     public void deleteStudentFromCourse(int studentId, int courseId) {
         //YOUR CODE STARTS HERE
 
-
+        final String sql = "DELETE FROM course_student WHERE student_id = ? AND course_id = ?";
+        jdbcTemplate.update(sql, studentId, courseId);
 
         //YOUR CODE ENDS HERE
     }
